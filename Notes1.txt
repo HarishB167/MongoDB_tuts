@@ -1,0 +1,149 @@
+Install community edition
+Install mongosh
+Open mongosh shell : mongosh
+Default empty database: test
+
+- Viewing databases
+show dbs 
+By default shows - admin, config, local.
+- Switching or creating database
+use dbName
+* If not exists then, db is created when data is added to db.
+- Viewing collections in db
+show collections
+Collections are similar to tables in sql.
+
+- Syntax is similar to Javascript
+
+- Deleting database
+While db being active
+db.dropDatabase()
+
+- In mongodb if we try to add data in non-existenting db, then that db is automatically created.
+
+- Exit terminal
+exit
+
+- Get current db : db
+- Inserting data
+db.<collectionName>
+.insertOne({jsonObj})
+* db.users.insertOne({name: "John"})
+* Returns object - 
+acknowledged: true
+insertedId: ObjectId("idOfRecord")
+* Many :
+db.users.insertMany([objList...])
+Returns object - 
+acknowledged: true
+insertedIds: {0: id1, 1: id2,..}
+
+- Getting records
+* db.collectionName.find()
+* db.users.find()
+* Returns array of objects
+[{_id: ObjectId(..), name: "John"},..]
+
+- Don't need to define columns, schema etc.
+
+- Every single object/record is called document.
+* Documents are in Collection
+* Collections are in db
+
+- Records inside a column doesn't need to have same columns/fields.
+
+- Limiting
+db.users.find().limit(2)
+- Sort
+db.users.find().sort(sortObj)
+* sortObj- contains key value pairs, key is field name. Value is 1 (ascending) or -1 (descending), 
+{name: -1}
+* Multifield sorting, priority given to first.
+{age:-1, name: -1}
+First age, then if some have same age then sorts name.
+
+- Skipping 
+db.users.find().skip(2)
+
+- Finding
+* Equivalent to where in sql
+* db.users.find(searchObj)
+searchObj - {name:"John", age:26}
+* Numbers in value as string are different.
+
+- Selecting
+* db.users.find(searchObj, selectObj)
+* selectors - {age: 1, id: 0}
+* 1 to include and 0 to exclude the fields.
+
+- Complex query
+* db.users.find(searchObj)
+* searchObj :
+{name: { $eq : "John" } }
+* Operators : 
+$ne - not equal
+$gt - greater than
+$gte, $lt, $lte,
+$in - in the list ( $in : [v1, v2] )
+$nin - not in the list
+$exists - this field exists for the record. ( $exists: true/false )
+* Multiple complex query on a field
+{ age : { $gte: 20, $lte: 30} }
+This also does and query.
+* And query
+.find({ $and: [{age: {$lte: 20}}, {name: "John"}]})
+* Or query
+.find({ $or: [{age: {$lte: 20}}, {name: "John"}]})
+* Not query
+.find({ age: { $not: {$lte: 20}}})
+
+- Querying with comparing fields of a record.
+* db.users.find({$expr: { $gt: ["$debt", "$balance"] }})
+
+- Nested objects querying 
+* searchObj - {"address.street": ...}
+
+- Find one
+* db.users.findOne(searchObj)
+* Returns single object
+
+- Count
+* db.users.countDocuments(searchObj)
+
+- Updating
+* db.users.updateOne(searchObj, updateObj)
+* updateObj - {$set: {age: 27} }
+* Returns object-
+{acknowledged: true, insertedId:null, matchedCount: 1,
+modifiedCount: 1, upsertedCount:0}
+* Update using id
+searchObj - {_id: ObjectId(...)}
+* Incrementing by 3
+updateObj - { $inc: {age: 3}}
+* Renaming field name 
+updateObj - { $rename: {name: "firstName"}}
+* Unset/Remove field
+updateObj - { $unset: {age: ""}}
+* Add to array 
+updateObj - { $push: {hobbies: "Swimming"}}
+* Remove from array
+updateObj - { $pull: {hobbies: "Swimming"}}
+- { $pull: {hobbies: {$in : ["Walk", "Drive"]} }}
+
+- Update multiple 
+* db.users.updateMany(searchObj, updateObj)
+
+- Replacing
+* db.users.replaceOne(searchObj objToReplaceWith)
+* Whole old object is removed and replaced with new object passed.
+* Returns object similar to update
+
+- Deleting
+* db.users.deleteOne(searchObj)
+* Returns - {acknowledged: true, deletedCount: 1}
+* Many
+db.users.deleteMany(searchObj)
+
+
+
+
