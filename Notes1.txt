@@ -3,6 +3,17 @@ Install mongosh
 Open mongosh shell : mongosh
 Default empty database: test
 
+- Installing mongodb
+* Add repo : wget -qO - https://mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+* Add package list : echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+* Update : sudo apt update
+* Install : sudo apt install mongodb -y
+* Start service : systemctl start mongodb
+* Enable : systemctl enable mongodb
+* Run mongodb every time to use as : mongod --dbpath /media/b167/Documents/MongoDB_Data
+* Then use client as : mongo
+And execute statements
+
 - Viewing databases
 show dbs 
 By default shows - admin, config, local.
