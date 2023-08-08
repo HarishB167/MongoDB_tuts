@@ -140,6 +140,7 @@ updateObj - { $push: {hobbies: "Swimming"}}
 * Remove from array
 updateObj - { $pull: {hobbies: "Swimming"}}
 - { $pull: {hobbies: {$in : ["Walk", "Drive"]} }}
+$pull can take searchObj
 
 - Update multiple 
 * db.users.updateMany(searchObj, updateObj)
